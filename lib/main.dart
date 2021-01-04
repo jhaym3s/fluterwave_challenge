@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:jumga/providers/ptoduct_provider.dart';
-import 'package:jumga/screens/registration_screen.dart';
+import './providers/cart.dart';
+import './providers/product_provider.dart';
+import './screens/cart_screen.dart';
+import './screens/registration_screen.dart';
 import 'package:provider/provider.dart';
-
 import './screens/product_overview.dart';
 import './login.dart';
 
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
         create: (BuildContext context) => ProductsProvider(),
-        )
+        ),
+        ChangeNotifierProvider(create: (BuildContext context)=> Cart())
       ] ,
         child: MaterialApp(
           title: 'Flutter Demo',
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
           routes: {
             ProductOverView.routeName :(context)=> ProductOverView(),
             RegistrationScreen.routeName :(context)=> RegistrationScreen(),
+            CartScreen.routeName :(context)=> CartScreen(),
           },
         ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:jumga/screens/cart_screen.dart';
+import 'package:jumga/screens/product_overview.dart';
 
 import '../screens/registration_screen.dart';
 
@@ -18,8 +20,13 @@ class CustomDrawer extends StatelessWidget {
       ],
     );
   }
+  navigator(BuildContext context,String routeName){
+    final nextPage =  Navigator.of(context).pushNamed(routeName);
+    return nextPage;
+  }
   @override
   Widget build(BuildContext context) {
+
     return Drawer(
       child: Column(
         children: [
@@ -46,7 +53,46 @@ class CustomDrawer extends StatelessWidget {
               ),
             ),
           ),
-
+          ListTile(
+            leading: Text("Product"),
+            trailing: Icon(Icons.list),
+            onTap: (){
+              Navigator.of(context).pushNamed(ProductOverView.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Text("Register Your store"),
+            trailing: Icon(Icons.store),
+            onTap: (){
+              Navigator.of(context).pushNamed(RegistrationScreen.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Text("Cart"),
+            trailing: Icon(Icons.add_shopping_cart_sharp),
+            onTap: (){
+              Navigator.of(context).pushNamed(CartScreen.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Text("Setting"),
+            trailing: Icon(Icons.settings),
+            onTap: (){
+              Navigator.of(context).pushNamed(RegistrationScreen.routeName);
+            },
+          ),
+          Divider(),
+          ListTile(
+            leading: Text("Logout"),
+            trailing: Icon(Icons.logout),
+            onTap: (){
+              Navigator.of(context).pushNamed(RegistrationScreen.routeName);
+            },
+          ),
+          Divider(),
         ],
       ),
     );
