@@ -31,13 +31,7 @@ class CustomDrawer extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.purpleAccent,Colors.purple
-                ]
-              )
-            ),
+            color: Colors.deepPurpleAccent,
             height: 100,
             child: Padding(
               padding: const EdgeInsets.all(8.0),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/product.dart';
 
 class CartScreenItem extends StatelessWidget {
   final String cartId,productId,title;
@@ -7,23 +9,49 @@ class CartScreenItem extends StatelessWidget {
   CartScreenItem({this.cartId, this.price, this.title, this.quantity, this.productId});
   @override
   Widget build(BuildContext context) {
+    final productImage =  Provider.of<Product>(context).imageUrl;
     return Dismissible(key: ValueKey(cartId),
-      child: ListTile(
-      onLongPress: (){
-        showDialog(context: context,builder: (context)=> AlertDialog(
-          actions: [
-            FlatButton(
-                onPressed: (){
-                  Navigator.of(context).pop(true);
-                }, child: Text("Yes")),
-            FlatButton(
-                onPressed: (){
-                  Navigator.of(context).pop(false);
-                }, child: Text("No")),
-          ],
-        ));
-      },
-    ),
+      child: Column(
+
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Container(
+              height: 50,
+              width: MediaQuery.of(context).size.width,
+              color: Colors.indigo,
+              child: Center(child: Text("Cart",style: TextStyle(color: Colors.white),)),),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Card(
+              color: Colors.grey,
+              elevation: 3.0,
+              child: Row(
+                children: [
+                  Container(
+                      width: 100.00,
+                      height: 120.00,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image:NetworkImage(productImage),
+                          fit: BoxFit.fill,
+                        ),
+                      ),),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(title),
+                      Text("Qty: $quantity"),
+                      Text(price.toString()),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     background: Container(
       child: Icon(Icons.delete),
     color: Theme.of(context).errorColor,

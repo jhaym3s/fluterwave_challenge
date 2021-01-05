@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+
+
+import '../providers/product_provider.dart';
+
 
 
 import '../widgets/cart_screen_item.dart';
@@ -11,25 +16,30 @@ class CartScreen extends StatelessWidget {
   static const routeName = "/cartScreen";
   @override
   Widget build(BuildContext context) {
+    final products = Provider.of<ProductsProvider>(context).products;
     final cart = Provider.of<Cart>(context);
     return Scaffold(
       appBar: AppBar(),
       body:cart.cartItems.isEmpty? Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.remove_shopping_cart_outlined,
-              size: 50,color: Colors.blueGrey,),
+              size: 80,color: Colors.blueGrey,),
           ],
         ),
       ): Column(
         children: [
           Expanded(child: ListView.builder(
-            itemBuilder: (context,index)=> CartScreenItem(
-              title: cart.cartItems.values.toList()[index].title,
-              cartId: cart.cartItems.values.toList()[index].id,
-              productId: cart.cartItems.keys.toList()[index],
-            price: cart.cartItems.values.toList()[index].price,
-              quantity: cart.cartItems.values.toList()[index].quantity,
+            itemBuilder: (context,index)=> ChangeNotifierProvider.value(
+              value: products[index],
+              child: CartScreenItem(
+                title: cart.cartItems.values.toList()[index].title,
+                cartId: cart.cartItems.values.toList()[index].id,
+                productId: cart.cartItems.keys.toList()[index],
+              price: cart.cartItems.values.toList()[index].price,
+                quantity: cart.cartItems.values.toList()[index].quantity,
+              ),
             ),
             itemCount: cart.cartItems.length,
           )),

@@ -41,6 +41,8 @@ class Cart with ChangeNotifier{
         id: previousCartItem.id,price: previousCartItem.price,
        ),
       );
+    }else{
+      _cartItems.remove(productId);
     }
     notifyListeners();
   }
