@@ -7,10 +7,56 @@ class CartScreenItem extends StatelessWidget {
   final double price;
   final int quantity;
   CartScreenItem({this.cartId, this.price, this.title, this.quantity, this.productId});
+
+  customText(String text,TextStyle styling){
+    return Padding(
+      padding: const EdgeInsets.only(bottom:8.0),
+      child: Text(text,style: styling,),
+    );
+  }
   @override
   Widget build(BuildContext context) {
-    final productImage =  Provider.of<Product>(context).imageUrl;
+    final productImage = Provider.of<Product>(context);
     return Dismissible(key: ValueKey(cartId),
+       child: Card(
+         elevation: 2,
+         child: Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: [
+             Row(
+               children: [
+                 Container(
+                   width: 90.00,
+                   height: 70.00,
+                   decoration: BoxDecoration(
+                     image: DecorationImage(
+                       image:NetworkImage(productImage.imageUrl),
+                       fit: BoxFit.fill,
+                     ),),),
+                 Column(
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [
+                     customText(title,TextStyle(fontSize: 30)),
+                     customText("Qty: $quantity",TextStyle(fontSize: 13)),
+                     customText("\$${price*quantity}",TextStyle(fontSize: 20)),
+                   ],)],),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(onPressed: (){}, icon:Icon(Icons.remove)),
+                IconButton(onPressed: (){}, icon:Icon(Icons.add)),
+              ],
+            )
+           ],),
+       ),
+    );
+  }
+}
+
+
+    /*
+
+      Dismissible(key: ValueKey(cartId),
       child: Column(
 
         children: [
@@ -39,7 +85,7 @@ class CartScreenItem extends StatelessWidget {
                         ),
                       ),),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(title),
                       Text("Qty: $quantity"),
@@ -77,3 +123,7 @@ class CartScreenItem extends StatelessWidget {
     );
   }
 }
+
+
+
+     */
