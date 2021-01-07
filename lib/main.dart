@@ -8,6 +8,7 @@ import './screens/registration_screen.dart';
 import 'package:provider/provider.dart';
 import './screens/product_overview.dart';
 import './login.dart';
+import './screens/shop_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
             ProductOverView.routeName :(context)=> ProductOverView(),
             RegistrationScreen.routeName :(context)=> RegistrationScreen(),
             CartScreen.routeName :(context)=> CartScreen(),
+            ShopScreen.routeName :(context)=>ShopScreen(
+
+            ),
           },
         ),
     );

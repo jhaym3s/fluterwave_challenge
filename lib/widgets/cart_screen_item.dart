@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../providers/cart.dart';
 import '../providers/product.dart';
 
 class CartScreenItem extends StatelessWidget {
@@ -17,6 +19,7 @@ class CartScreenItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productImage = Provider.of<Product>(context);
+    final cart = Provider.of<Cart>(context);
     return Dismissible(key: ValueKey(cartId),
        child: Card(
          elevation: 2,
@@ -43,8 +46,12 @@ class CartScreenItem extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                IconButton(onPressed: (){}, icon:Icon(Icons.remove)),
-                IconButton(onPressed: (){}, icon:Icon(Icons.add)),
+                IconButton(onPressed: (){
+                  cart.removeLastItem(productId);
+                }, icon:Icon(Icons.remove)),
+                IconButton(onPressed: (){
+                  cart.addItem(productId: productId,price: price,title: title);
+                }, icon:Icon(Icons.add)),
               ],
             )
            ],),

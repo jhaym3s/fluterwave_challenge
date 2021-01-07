@@ -41,9 +41,31 @@ class ProductsProvider with ChangeNotifier{
       imageUrl:
       'https://images.unsplash.com/photo-1543005240-6a7dcea5bfca?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MTJ8fHxlbnwwfHx8&auto=format&fit=crop&w=500&q=60.png',
     ),
+    Product(
+      id: 'p5',
+      title: 'Phones',
+      description: 'Get a classic door of any color for yourself.',
+      price: 49.99,
+      shopName: "Uwak",
+      imageUrl:
+      'https://images.unsplash.com/photo-1586941756923-830029962fd9?ixid=MXwxMjA3fDB8MHxzZWFyY2h8N3x8cGhvbmVzfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    ),
+    Product(
+      id: 'p6',
+      title: 'A Pen',
+      description: 'Get a classic door of any color for yourself.',
+      price: 49.99,
+      shopName: "Uwak",
+      imageUrl:
+      'https://images.unsplash.com/photo-1518674660708-0e2c0473e68e?ixid=MXwxMjA3fDB8MHxzZWFyY2h8MXx8cGVufGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
+    ),
   ];
 
   List<Product> get products{
     return [..._products];
   }
+  //this is used to find product that had same id to decide which to navigate to
+ Product findById(String id){
+   return _products.firstWhere((element) => element.id == id);
+ }
 }

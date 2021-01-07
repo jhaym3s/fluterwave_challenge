@@ -37,11 +37,10 @@ class ProductGridItem extends StatelessWidget {
         ));
       }),
       title: Text(product.title),
-      subtitle: FlatButton(onPressed: () {
+      subtitle: IconButton(icon: Icon(Icons.store) , onPressed: (){
         Navigator.of(context).pushNamed(ShopScreen.routeName,arguments: product.id);
-      },
-      child: Text(product.shopName,style: TextStyle(color: Colors.purpleAccent),textAlign: TextAlign.left,
-        softWrap: true,)),
+      }),
+
     ),);
   }
 }
