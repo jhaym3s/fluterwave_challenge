@@ -16,7 +16,11 @@ class _AddAndEditScreenState extends State<AddAndEditScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [
+          IconButton(icon: Icon(Icons.save), onPressed: null)
+        ],
+      ),
       body: Form(
         key: _form,
           child: Column(
@@ -33,6 +37,36 @@ focusNode: shopNameFocusNode,
        ),
      ),
       TextFormField(
+        focusNode: titleFocusNode,
+       textInputAction: TextInputAction.next,
+        onFieldSubmitted: (_){
+          FocusScope.of(context).requestFocus(titleFocusNode);
+        },
+       decoration: InputDecoration(
+         labelText: "Name of product",
+       ),
+     ),
+       TextFormField(
+        focusNode: titleFocusNode,
+       textInputAction: TextInputAction.next,
+        onFieldSubmitted: (_){
+          FocusScope.of(context).requestFocus(titleFocusNode);
+        },
+       decoration: InputDecoration(
+         labelText: "Description",
+       ),
+     ),
+     TextFormField(
+        focusNode: titleFocusNode,
+       textInputAction: TextInputAction.next,
+        onFieldSubmitted: (_){
+          FocusScope.of(context).requestFocus(titleFocusNode);
+        },
+       decoration: InputDecoration(
+         labelText: "Name of product",
+       ),
+     ),
+     TextFormField(
         focusNode: titleFocusNode,
        textInputAction: TextInputAction.next,
         onFieldSubmitted: (_){
