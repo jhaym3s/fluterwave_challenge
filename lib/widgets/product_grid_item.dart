@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:jumga/screens/product_details_screen.dart';
 import 'package:provider/provider.dart';
 
 
@@ -13,34 +14,39 @@ class ProductGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
     final cart = Provider.of<Cart>(context);
-    return GridTile(child: Image.network(product.imageUrl), footer: GridTileBar(
-      backgroundColor: Colors.black45,
-      leading: Consumer<Product>(
-        builder: (BuildContext context, product, Widget child) {
-          return IconButton(
-            icon: Icon(product.isFavourite? Icons.favorite:Icons.favorite_border,color: Colors.orange,),
-            onPressed: () {
-            return product.toggleFavourite();
-           },
-          );
-        },
-      ),
-      trailing: IconButton(icon: Icon(Icons.add_shopping_cart), onPressed: (){
-        cart.addItem(title: product.title,price: product.price,productId: product.id);
-        Scaffold.of(context).hideCurrentSnackBar();
-        Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text("An item has been added to the cart"),
-          backgroundColor: Colors.black45,duration: Duration(seconds: 3),
-          action: SnackBarAction(label: "Undo", onPressed: (){
-              cart.removeLastItem(product.id);
-          }),
-        ));
-      }),
-      title: Text(product.title),
-      subtitle: IconButton(icon: Icon(Icons.store) , onPressed: (){
-        Navigator.of(context).pushNamed(ShopScreen.routeName,arguments: product.id);
-      }),
+    return GestureDetector(
+      onTap: (){
+        Navigator.of(context).pushNamed(ProductDetailScreen.routeName,arguments: product.id);
+      },
+      child: GridTile(child: Image.network(product.imageUrl), footer: GridTileBar(
+        backgroundColor: Colors.black45,
+        leading: Consumer<Product>(
+          builder: (BuildContext context, product, Widget child) {
+            return IconButton(
+              icon: Icon(product.isFavourite? Icons.favorite:Icons.favorite_border,color: Colors.orange,),
+              onPressed: () {
+              return product.toggleFavourite();
+             },
+            );
+          },
+        ),
+        trailing: IconButton(icon: Icon(Icons.add_shopping_cart), onPressed: (){
+          cart.addItem(title: product.title,price: product.price,productId: product.id);
+          Scaffold.of(context).hideCurrentSnackBar();
+          Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text("An item has been added to the cart"),
+            backgroundColor: Colors.black45,duration: Duration(seconds: 3),
+            action: SnackBarAction(label: "Undo", onPressed: (){
+                cart.removeLastItem(product.id);
+            }),
+          ));
+        }),
+        title: Text(product.title),
+        subtitle: IconButton(icon: Icon(Icons.store) , onPressed: (){
+          Navigator.of(context).pushNamed(ShopScreen.routeName,arguments: product.id);
+        }),
 
-    ),);
+      ),),
+    );
   }
 }

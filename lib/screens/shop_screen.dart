@@ -21,7 +21,7 @@ class _ShopScreenState extends State<ShopScreen> {
     ).findById(productId);
     return Scaffold(
       appBar: AppBar(
-        title: Text(loadedProduct.title),
+        title: Text(loadedProduct.shopName),
       ),
     );
   }
