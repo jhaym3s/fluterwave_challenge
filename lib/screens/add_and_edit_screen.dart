@@ -7,18 +7,45 @@ class AddAndEditScreen extends StatefulWidget {
 }
 
 class _AddAndEditScreenState extends State<AddAndEditScreen> {
+  @override
+  void initState() {
+_imageUrlFocusNode.addListener(updateImageUrl);
+    super.initState();
+  }
+
   final _form = GlobalKey<FormState>();
   final titleFocusNode = FocusNode();
   final descriptionFocusNode = FocusNode();
   final shopNameFocusNode = FocusNode();
+  final priceFocusNode = FocusNode();
   final _imageUrlFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
+
+  @override
+  void dispose() {
+    _imageUrlFocusNode.removeListener(updateImageUrl);
+    titleFocusNode.dispose();
+    descriptionFocusNode.dispose();
+    shopNameFocusNode.dispose();
+    priceFocusNode.dispose();
+    _imageUrlController.dispose();
+    _imageUrlFocusNode.dispose();
+    super.dispose();
+  }
+  void updateImageUrl(){
+    if(!_imageUrlFocusNode.hasFocus){
+      setState(() {});
+    }
+  }
+  void saveForm (){
+    _form.currentState.save();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(icon: Icon(Icons.save), onPressed: null)
+          IconButton(icon: Icon(Icons.save), onPressed: saveForm)
         ],
       ),
       body: Form(
@@ -27,11 +54,7 @@ class _AddAndEditScreenState extends State<AddAndEditScreen> {
         children: [
      TextFormField(
 focusNode: shopNameFocusNode,
-       textInputAction: TextInputAction.next,
        readOnly: true,
-       onFieldSubmitted: (_){
-  FocusScope.of(context).requestFocus(titleFocusNode);
-       },
        decoration: InputDecoration(
          labelText: "Name of shop"
        ),
@@ -39,42 +62,66 @@ focusNode: shopNameFocusNode,
       TextFormField(
         focusNode: titleFocusNode,
        textInputAction: TextInputAction.next,
+
         onFieldSubmitted: (_){
-          FocusScope.of(context).requestFocus(titleFocusNode);
+          FocusScope.of(context).requestFocus(descriptionFocusNode);
         },
        decoration: InputDecoration(
          labelText: "Name of product",
        ),
      ),
        TextFormField(
-        focusNode: titleFocusNode,
+        focusNode: descriptionFocusNode,
        textInputAction: TextInputAction.next,
         onFieldSubmitted: (_){
-          FocusScope.of(context).requestFocus(titleFocusNode);
+          FocusScope.of(context).requestFocus(priceFocusNode);
         },
        decoration: InputDecoration(
          labelText: "Description",
        ),
      ),
      TextFormField(
-        focusNode: titleFocusNode,
+        focusNode: priceFocusNode,
        textInputAction: TextInputAction.next,
         onFieldSubmitted: (_){
-          FocusScope.of(context).requestFocus(titleFocusNode);
+          FocusScope.of(context).requestFocus(_imageUrlFocusNode);
         },
+       keyboardType: TextInputType.number,
        decoration: InputDecoration(
-         labelText: "Name of product",
+         labelText: "Price",
        ),
      ),
-     TextFormField(
-        focusNode: titleFocusNode,
-       textInputAction: TextInputAction.next,
-        onFieldSubmitted: (_){
-          FocusScope.of(context).requestFocus(titleFocusNode);
-        },
-       decoration: InputDecoration(
-         labelText: "Name of product",
-       ),
+     Row(
+       children: [
+         Container(
+           decoration: BoxDecoration(
+             border: Border.all(
+               color: Colors.grey,width: 1.0
+             )
+           ),
+           height: 100,
+           width: 100,
+           child: _imageUrlController.text.isEmpty?Text("Product Image")
+               : Image.network(_imageUrlController.text,fit: BoxFit.cover,),
+         ),
+         Expanded(
+           child: Padding(
+             padding: const EdgeInsets.all(3.0),
+             child: TextFormField(
+               keyboardType: TextInputType.url,
+                focusNode: _imageUrlFocusNode,
+               controller: _imageUrlController,
+               textInputAction: TextInputAction.next,
+                onFieldSubmitted: (_){
+                 saveForm();
+                },
+               decoration: InputDecoration(
+                 labelText: "Product ImageUrl",
+               ),
+             ),
+           ),
+         ),
+       ],
      ),
         ],
       )),
