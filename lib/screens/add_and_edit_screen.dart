@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../providers/product.dart';
-
+import '../providers/product_provider.dart';
 class AddAndEditScreen extends StatefulWidget {
   static const routeName = "/AddAndEditScreen";
   @override
@@ -37,12 +38,13 @@ _imageUrlFocusNode.addListener(updateImageUrl);
     }
   }
   void saveForm (){
+    if(!_form.currentState.validate()){
+      return;
+    }
     _form.currentState.save();
-    print(editedProduct.imageUrl);
-    print(editedProduct.title);
-    print(editedProduct.shopName);
-    print(editedProduct.price);
+    Provider.of<ProductsProvider>(context,listen: false).addProduct(editedProduct);
     Navigator.of(context).pop();
+
   }
   var editedProduct = Product(
     title: "",
