@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../providers/product.dart';
 
 class AddAndEditScreen extends StatefulWidget {
   static const routeName = "/AddAndEditScreen";
@@ -12,15 +13,13 @@ class _AddAndEditScreenState extends State<AddAndEditScreen> {
 _imageUrlFocusNode.addListener(updateImageUrl);
     super.initState();
   }
-
-  final _form = GlobalKey<FormState>();
   final titleFocusNode = FocusNode();
   final descriptionFocusNode = FocusNode();
   final shopNameFocusNode = FocusNode();
   final priceFocusNode = FocusNode();
   final _imageUrlFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
-
+  final _form = GlobalKey<FormState>();
   @override
   void dispose() {
     _imageUrlFocusNode.removeListener(updateImageUrl);
@@ -39,7 +38,20 @@ _imageUrlFocusNode.addListener(updateImageUrl);
   }
   void saveForm (){
     _form.currentState.save();
+    print(editedProduct.imageUrl);
+    print(editedProduct.title);
+    print(editedProduct.shopName);
+    print(editedProduct.price);
+    Navigator.of(context).pop();
   }
+  var editedProduct = Product(
+    title: "",
+    imageUrl: "",
+    price: 0.0,
+    id: null,
+    shopName: "",
+    description: "",
+  );
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +65,13 @@ _imageUrlFocusNode.addListener(updateImageUrl);
           child: Column(
         children: [
      TextFormField(
+       onSaved: (value){
+         editedProduct = Product(
+           title: editedProduct.title,
+           imageUrl: editedProduct.imageUrl,description: editedProduct.description,price: editedProduct.price,
+           shopName: value,
+         );
+       },
 focusNode: shopNameFocusNode,
        readOnly: true,
        decoration: InputDecoration(
@@ -60,6 +79,19 @@ focusNode: shopNameFocusNode,
        ),
      ),
       TextFormField(
+        validator: (value){
+          if(value.isEmpty){
+            return "Add a title";
+          }
+          return null;
+        },
+        onSaved: (value){
+          editedProduct = Product(
+            title: value,
+            imageUrl: editedProduct.imageUrl,description: editedProduct.description,price: editedProduct.price,
+            shopName: editedProduct.shopName,
+          );
+        },
         focusNode: titleFocusNode,
        textInputAction: TextInputAction.next,
 
@@ -71,6 +103,22 @@ focusNode: shopNameFocusNode,
        ),
      ),
        TextFormField(
+         validator: (value){
+           if(value.isEmpty){
+             return"please enter a description";
+           }
+           if(value.length < 10){
+             return "Please give a more descriptive description";
+           }
+           return null;
+         },
+         onSaved: (value){
+           editedProduct = Product(
+             title: editedProduct.title,
+             imageUrl: editedProduct.imageUrl,description: value,price: editedProduct.price,
+             shopName: editedProduct.shopName,
+           );
+         },
         focusNode: descriptionFocusNode,
        textInputAction: TextInputAction.next,
         onFieldSubmitted: (_){
@@ -81,6 +129,27 @@ focusNode: shopNameFocusNode,
        ),
      ),
      TextFormField(
+       validator: (value){
+         if(value.isEmpty){
+           return " What is the price of the product";
+         }
+         if (double.tryParse(value)== null){
+           return "the price is supposed to be a number";
+         }
+         if(double.parse(value)<1){
+           return "Is this a fake product or what add a better price abeg";
+         }
+         return null;
+       },
+    onSaved: (value) {
+      editedProduct = Product(
+        title: editedProduct.title,
+        imageUrl: editedProduct.imageUrl,
+        description: editedProduct.imageUrl,
+        price: double.parse(value),
+        shopName: editedProduct.shopName,
+      );
+    },
         focusNode: priceFocusNode,
        textInputAction: TextInputAction.next,
         onFieldSubmitted: (_){
@@ -102,19 +171,46 @@ focusNode: shopNameFocusNode,
            height: 100,
            width: 100,
            child: _imageUrlController.text.isEmpty?Text("Product Image")
-               : Image.network(_imageUrlController.text,fit: BoxFit.cover,),
+               : FittedBox(child: Image.network(_imageUrlController.text,fit: BoxFit.cover,)),
          ),
+         // CircleAvatar(
+         //   radius: 30,
+         //  backgroundImage: NetworkImage(_imageUrlController.text),
+         // ),
          Expanded(
            child: Padding(
              padding: const EdgeInsets.all(3.0),
              child: TextFormField(
+               validator: (value) {
+                 if (value.isEmpty) {
+                   return ' Are you a fraud star? Please enter an image URL.';
+                 }
+                 if (!value.startsWith('http') &&
+                     !value.startsWith('https')) {
+                   return 'Please enter a valid URL.';
+                 }
+                 if (!value.endsWith('.png') &&
+                     !value.endsWith('.jpg') &&
+                     !value.endsWith('.jpeg')) {
+                   return 'Please enter a valid image URL.';
+                 }
+                 return null;
+               },
+               onSaved: (value){
+                 editedProduct = Product(
+                   title: editedProduct.title,
+                   imageUrl: value,description: editedProduct.description,price: editedProduct.price,
+                   shopName: editedProduct.shopName,
+                 );
+               },
                keyboardType: TextInputType.url,
                 focusNode: _imageUrlFocusNode,
                controller: _imageUrlController,
-               textInputAction: TextInputAction.next,
+               textInputAction: TextInputAction.done,
                 onFieldSubmitted: (_){
                  saveForm();
                 },
+
                decoration: InputDecoration(
                  labelText: "Product ImageUrl",
                ),
