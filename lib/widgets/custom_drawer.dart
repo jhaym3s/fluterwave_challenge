@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jumga/screens/add_and_edit_screen.dart';
 import 'package:jumga/screens/cart_screen.dart';
 import 'package:jumga/screens/product_overview.dart';
+import 'package:jumga/screens/update_product_screen.dart';
 
 import '../screens/registration_screen.dart';
 
@@ -81,10 +82,10 @@ class CustomDrawer extends StatelessWidget {
           ),
           Divider(),
           ListTile(
-            leading: Text("Add and edit Product"),
+            leading: Text("User product screen"),
             trailing: Icon(Icons.edit),
             onTap: (){
-              Navigator.of(context).pushNamed(AddAndEditScreen.routeName);
+              Navigator.of(context).pushNamed(UpdateProductScreen.routeName);
             },
           ),
           Divider(),

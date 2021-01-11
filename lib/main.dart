@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jumga/screens/update_product_screen.dart';
 
 
 import './providers/product.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
             CartScreen.routeName :(context)=> CartScreen(),
             ShopScreen.routeName :(context)=>ShopScreen(),
             AddAndEditScreen.routeName :(context)=>AddAndEditScreen(),
+            UpdateProductScreen.routeName :(context)=>UpdateProductScreen(),
 
           },
         ),
