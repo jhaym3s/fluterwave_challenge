@@ -21,14 +21,16 @@ class UpdateProductItem extends StatelessWidget {
         ),
       ),
       title: Text(title),
-      trailing: Expanded(
+      trailing: Container(
+        width: 100,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            IconButton(icon:Icon(edit) , onPressed: (){
+            IconButton(icon:Icon(edit,color: Colors.blue) , onPressed: (){
             Navigator.of(context).pushNamed(AddAndEditScreen.routeName,arguments:id);
             }),
-            IconButton(icon:Icon(delete) , onPressed: (){
+            IconButton(icon:Icon(delete,color: Colors.red,) , onPressed: (){
               product.deleteProduct(id);
             })
           ],

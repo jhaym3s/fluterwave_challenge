@@ -23,7 +23,9 @@ class UpdateProductScreen extends StatelessWidget {
         id: individualProduct[index].id,title:individualProduct[index].title ,
         imageUrl: individualProduct[index].imageUrl,
         delete: Icons.delete, edit: Icons.edit,
-      ),),
+      ),
+      itemCount: individualProduct.length,
+      ),
     );
   }
 }
