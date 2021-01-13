@@ -21,6 +21,7 @@ _imageUrlFocusNode.addListener(updateImageUrl);
   final _imageUrlFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
   final _form = GlobalKey<FormState>();
+  var init = true;
   @override
   void dispose() {
     _imageUrlFocusNode.removeListener(updateImageUrl);
@@ -42,9 +43,41 @@ _imageUrlFocusNode.addListener(updateImageUrl);
       return;
     }
     _form.currentState.save();
-    Provider.of<ProductsProvider>(context,listen: false).addProduct(editedProduct);
+    if(editedProduct.id != null){
+      Provider.of<ProductsProvider>(context,listen: false).updateProduct(editedProduct.id,editedProduct);
+    }
+    else{
+      Provider.of<ProductsProvider>(context,listen: false).addProduct(editedProduct);
+    }
+
     Navigator.of(context).pop();
 
+  }
+  var initValue = {
+    "title": "",
+    "imageUrl" : "",
+    "price":"",
+    "description": "",
+    "shopName": ""
+  };
+  @override
+  void didChangeDependencies() {
+    if(init){
+      final productId = ModalRoute.of(context).settings.arguments as String;
+     if (productId != null){
+       editedProduct = Provider.of<ProductsProvider>(context).findById(productId);
+       initValue ={
+         "title": editedProduct.title,
+         //"imageUrl" : editedProduct.imageUrl,
+         "price":editedProduct.price.toString(),
+         "description": editedProduct.description,
+         "shopName":editedProduct.shopName,
+       };
+       _imageUrlController.text = editedProduct.imageUrl;
+     }
+    }
+    init = false;
+    super.didChangeDependencies();
   }
   var editedProduct = Product(
     title: "",
@@ -56,7 +89,7 @@ _imageUrlFocusNode.addListener(updateImageUrl);
   );
   @override
   Widget build(BuildContext context) {
-    final productId = ModalRoute.of(context).settings.arguments as String;
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -68,11 +101,14 @@ _imageUrlFocusNode.addListener(updateImageUrl);
           child: Column(
         children: [
      TextFormField(
+       initialValue: editedProduct.shopName,
        onSaved: (value){
          editedProduct = Product(
            title: editedProduct.title,
            imageUrl: editedProduct.imageUrl,description: editedProduct.description,price: editedProduct.price,
            shopName: value,
+           id: editedProduct.id,
+           isFavourite: editedProduct.isFavourite,
          );
        },
 focusNode: shopNameFocusNode,
@@ -82,6 +118,7 @@ focusNode: shopNameFocusNode,
        ),
      ),
       TextFormField(
+        initialValue: initValue["title"],
         validator: (value){
           if(value.isEmpty){
             return "Add a title";
@@ -90,6 +127,8 @@ focusNode: shopNameFocusNode,
         },
         onSaved: (value){
           editedProduct = Product(
+            id: editedProduct.id,
+            isFavourite: editedProduct.isFavourite,
             title: value,
             imageUrl: editedProduct.imageUrl,description: editedProduct.description,price: editedProduct.price,
             shopName: editedProduct.shopName,
@@ -106,6 +145,7 @@ focusNode: shopNameFocusNode,
        ),
      ),
        TextFormField(
+         initialValue: initValue["description"],
          validator: (value){
            if(value.isEmpty){
              return"please enter a description";
@@ -116,7 +156,10 @@ focusNode: shopNameFocusNode,
            return null;
          },
          onSaved: (value){
+
            editedProduct = Product(
+             id: editedProduct.id,
+             isFavourite: editedProduct.isFavourite,
              title: editedProduct.title,
              imageUrl: editedProduct.imageUrl,description: value,price: editedProduct.price,
              shopName: editedProduct.shopName,
@@ -132,6 +175,7 @@ focusNode: shopNameFocusNode,
        ),
      ),
      TextFormField(
+       initialValue: initValue["price"],
        validator: (value){
          if(value.isEmpty){
            return " What is the price of the product";
@@ -146,6 +190,8 @@ focusNode: shopNameFocusNode,
        },
     onSaved: (value) {
       editedProduct = Product(
+        id: editedProduct.id,
+        isFavourite: editedProduct.isFavourite,
         title: editedProduct.title,
         imageUrl: editedProduct.imageUrl,
         description: editedProduct.imageUrl,
@@ -184,6 +230,7 @@ focusNode: shopNameFocusNode,
            child: Padding(
              padding: const EdgeInsets.all(3.0),
              child: TextFormField(
+               //initialValue: editedProduct.imageUrl,
                validator: (value) {
                  if (value.isEmpty) {
                    return ' Are you a fraud star? Please enter an image URL.';
@@ -201,6 +248,8 @@ focusNode: shopNameFocusNode,
                },
                onSaved: (value){
                  editedProduct = Product(
+                   id: editedProduct.id,
+                   isFavourite: editedProduct.isFavourite,
                    title: editedProduct.title,
                    imageUrl: value,description: editedProduct.description,price: editedProduct.price,
                    shopName: editedProduct.shopName,
