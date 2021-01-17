@@ -43,7 +43,7 @@ class CustomDrawer extends StatelessWidget {
                   Text("Hi Jhaymes",style: TextStyle(fontSize: 21),),
                   CircleAvatar(
                     child: Icon(Icons.account_circle,size: 60,color: Colors.black,),
-                    radius: 30,backgroundColor: Colors.grey,
+                    radius: 30,backgroundColor: Colors.white24,
                   ),
                 ],
               ),

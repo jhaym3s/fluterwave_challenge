@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import '../providers/product.dart';
+import 'package:http/http.dart' as http;
 
 
 class ProductsProvider with ChangeNotifier{
@@ -70,13 +73,26 @@ class ProductsProvider with ChangeNotifier{
  }
 
  void addProduct(Product demoProduct){
-   final newProduct = Product(
-     title :demoProduct.title,imageUrl: demoProduct.imageUrl,
-       id: DateTime.now().toString(),price: demoProduct.price,
-     description: demoProduct.description,shopName: demoProduct.shopName
-   );
-   _products.add(newProduct);
-   notifyListeners();
+    var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product.json';
+    http.post(url,body: json.encode( {
+      "title": demoProduct.title,
+      "imageUrl": demoProduct.imageUrl,
+      "price": demoProduct.price,
+      "shopName": demoProduct.shopName,
+      "description": demoProduct.description,
+      "isFavourite": demoProduct.isFavourite
+    })).then((response) {
+      print(json.decode(response.body));
+      final generatedId = json.decode(response.body)["name"];
+      final newProduct = Product(
+          title :demoProduct.title,imageUrl: demoProduct.imageUrl,
+          id: generatedId,price: demoProduct.price,
+          description: demoProduct.description,shopName: demoProduct.shopName
+      );
+      _products.add(newProduct);
+      notifyListeners();
+    });
+   
  }
  void deleteProduct(String productId){
     _products.removeWhere((element) => element.id == productId);
