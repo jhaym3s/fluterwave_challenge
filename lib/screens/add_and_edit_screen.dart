@@ -21,7 +21,8 @@ _imageUrlFocusNode.addListener(updateImageUrl);
   final _imageUrlFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
   final _form = GlobalKey<FormState>();
-  var init = true;
+  var init = true; // this is to chbeck if this is the firat time you are running it
+  var isLoading = false;
   @override
   void dispose() {
     _imageUrlFocusNode.removeListener(updateImageUrl);
@@ -43,14 +44,24 @@ _imageUrlFocusNode.addListener(updateImageUrl);
       return;
     }
     _form.currentState.save();
+    setState(() {
+      isLoading = true;
+    });
     if(editedProduct.id != null){
       Provider.of<ProductsProvider>(context,listen: false).updateProduct(editedProduct.id,editedProduct);
+      setState(() {
+        isLoading = false;
+      });
+      Navigator.of(context).pop();
     }
     else{
-      Provider.of<ProductsProvider>(context,listen: false).addProduct(editedProduct);
+      Provider.of<ProductsProvider>(context,listen: false).addProduct(editedProduct).then((value) => Navigator.of(context).pop());
+     setState(() {
+       isLoading = false;
+     });
     }
 
-    Navigator.of(context).pop();
+    //Navigator.of(context).pop();
 
   }
   var initValue = {
@@ -96,7 +107,7 @@ _imageUrlFocusNode.addListener(updateImageUrl);
           IconButton(icon: Icon(Icons.save), onPressed: saveForm)
         ],
       ),
-      body: Form(
+      body: isLoading? CircularProgressIndicator() :Form(
         key: _form,
           child: Column(
         children: [

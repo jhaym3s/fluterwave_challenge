@@ -72,9 +72,9 @@ class ProductsProvider with ChangeNotifier{
    return _products.firstWhere((element) => element.id == id);
  }
 
- void addProduct(Product demoProduct){
+ Future<void> addProduct(Product demoProduct){
     var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product.json';
-    http.post(url,body: json.encode( {
+    return http.post(url,body: json.encode( {
       "title": demoProduct.title,
       "imageUrl": demoProduct.imageUrl,
       "price": demoProduct.price,
