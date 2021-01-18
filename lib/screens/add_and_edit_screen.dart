@@ -55,7 +55,20 @@ _imageUrlFocusNode.addListener(updateImageUrl);
       Navigator.of(context).pop();
     }
     else{
-      Provider.of<ProductsProvider>(context,listen: false).addProduct(editedProduct).then((value) => Navigator.of(context).pop());
+      Provider.of<ProductsProvider>(context,listen: false).addProduct(editedProduct).catchError((error){
+        showDialog(context: context,builder: (context) {
+          return AlertDialog(
+            title: Text("An error occurred!"),
+            content: Text("${error.toString()} Check your internet connection"),elevation: 2,
+            actions: [
+              FlatButton(onPressed:() {
+                Navigator.of(context).pop();
+              }, child: Text("Seen"))
+            ],
+          );
+        },);
+      }).
+      then((value) => Navigator.of(context).pop());
      setState(() {
        isLoading = false;
      });
