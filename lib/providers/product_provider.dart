@@ -73,7 +73,7 @@ class ProductsProvider with ChangeNotifier{
  }
 
  Future<void> addProduct(Product demoProduct)async{
-    var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product';
+    var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product.jsonS';
     try {
       final response = await http.post(url, body: json.encode({
         "title": demoProduct.title,

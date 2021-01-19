@@ -72,7 +72,6 @@ _imageUrlFocusNode.addListener(updateImageUrl);
         },);
       }
       finally{
-
         setState(() {
           isLoading = false;
           Navigator.of(context).pop();
@@ -121,12 +120,12 @@ _imageUrlFocusNode.addListener(updateImageUrl);
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(icon: Icon(Icons.save), onPressed: saveForm)
-        ],
-      ),
-      body: isLoading? CircularProgressIndicator() :Form(
+      // appBar: AppBar(
+      //   actions: [
+      //     IconButton(icon: Icon(Icons.save), onPressed: saveForm)
+      //   ],
+      // ),
+      body: isLoading? Center(child: CircularProgressIndicator()) :Form(
         key: _form,
           child: Column(
         children: [
