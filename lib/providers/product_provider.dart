@@ -72,28 +72,32 @@ class ProductsProvider with ChangeNotifier{
    return _products.firstWhere((element) => element.id == id);
  }
 
- Future<void> addProduct(Product demoProduct){
-    var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product.json';
-    return http.post(url,body: json.encode( {
-      "title": demoProduct.title,
-      "imageUrl": demoProduct.imageUrl,
-      "price": demoProduct.price,
-      "shopName": demoProduct.shopName,
-      "description": demoProduct.description,
-      "isFavourite": demoProduct.isFavourite
-    })).then((response) {
+ Future<void> addProduct(Product demoProduct)async{
+    var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product';
+    try {
+      final response = await http.post(url, body: json.encode({
+        "title": demoProduct.title,
+        "imageUrl": demoProduct.imageUrl,
+        "price": demoProduct.price,
+        "shopName": demoProduct.shopName,
+        "description": demoProduct.description,
+        "isFavourite": demoProduct.isFavourite
+      }));
       print(json.decode(response.body));
       final generatedId = json.decode(response.body)["name"];
       final newProduct = Product(
-          title :demoProduct.title,imageUrl: demoProduct.imageUrl,
-          id: generatedId,price: demoProduct.price,
-          description: demoProduct.description,shopName: demoProduct.shopName
+          title: demoProduct.title,
+          imageUrl: demoProduct.imageUrl,
+          id: generatedId,
+          price: demoProduct.price,
+          description: demoProduct.description,
+          shopName: demoProduct.shopName
       );
       _products.add(newProduct);
       notifyListeners();
-    }).catchError((error){
+    } catch (error){
       throw error;
-    });
+    }
    
  }
  void deleteProduct(String productId){

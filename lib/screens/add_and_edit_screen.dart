@@ -39,7 +39,7 @@ _imageUrlFocusNode.addListener(updateImageUrl);
       setState(() {});
     }
   }
-  void saveForm (){
+  Future<void> saveForm () async{
     if(!_form.currentState.validate()){
       return;
     }
@@ -55,8 +55,11 @@ _imageUrlFocusNode.addListener(updateImageUrl);
       Navigator.of(context).pop();
     }
     else{
-      Provider.of<ProductsProvider>(context,listen: false).addProduct(editedProduct).catchError((error){
-        showDialog(context: context,builder: (context) {
+      try {
+        await Provider.of<ProductsProvider>(context, listen: false).addProduct(
+            editedProduct);
+      }catch (error){
+       await showDialog(context: context,builder: (context) {
           return AlertDialog(
             title: Text("An error occurred!"),
             content: Text("${error.toString()} Check your internet connection"),elevation: 2,
@@ -67,11 +70,14 @@ _imageUrlFocusNode.addListener(updateImageUrl);
             ],
           );
         },);
-      }).
-      then((value) => Navigator.of(context).pop());
-     setState(() {
-       isLoading = false;
-     });
+      }
+      finally{
+
+        setState(() {
+          isLoading = false;
+          Navigator.of(context).pop();
+        });
+      }
     }
 
     //Navigator.of(context).pop();
