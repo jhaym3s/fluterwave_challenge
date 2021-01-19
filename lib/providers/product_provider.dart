@@ -73,7 +73,7 @@ class ProductsProvider with ChangeNotifier{
  }
 
  Future<void> addProduct(Product demoProduct)async{
-    var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product.jsonS';
+    var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product.json';
     try {
       final response = await http.post(url, body: json.encode({
         "title": demoProduct.title,
@@ -95,11 +95,20 @@ class ProductsProvider with ChangeNotifier{
       );
       _products.add(newProduct);
       notifyListeners();
-    } catch (error){
+    } catch (error) {
       throw error;
     }
-   
  }
+  Future<void> fetchProduct()async{
+    var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product.json';
+    try {
+      final response = await http.get(url);
+      print(json.decode(response.body));
+    }
+    catch(error){
+      throw error;
+    }
+  }
  void deleteProduct(String productId){
     _products.removeWhere((element) => element.id == productId);
     notifyListeners();
