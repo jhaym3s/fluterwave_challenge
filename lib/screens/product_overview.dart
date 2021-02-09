@@ -13,18 +13,11 @@ class ProductOverView extends StatefulWidget {
 
 class _ProductOverViewState extends State<ProductOverView> {
   var isInit = true;
-  // @override
-  // void initState() {
-  //   Future.delayed(Duration.zero).then((value) =>
-  //   Provider.of<ProductsProvider>(context).fetchProduct()
-  //   );
-  //   super.initState();
-  // this
-  // }
   @override
   void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
     if(isInit){
-      Provider.of<ProductsProvider>(context).fetchProduct();
+      Provider.of<ProductsProvider>(context).fetchData();
     }
     isInit = false;
     super.didChangeDependencies();

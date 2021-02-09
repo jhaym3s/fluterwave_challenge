@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (BuildContext context)=> Cart())
       ] ,
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Jumga Flutter Wave challenge',
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
