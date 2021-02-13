@@ -17,7 +17,7 @@ class UpdateProductScreen extends StatelessWidget {
             Navigator.of(context).pushNamed(AddAndEditScreen.routeName);
           }),
         ],
-        elevation: 1.0,//shape: ShapeBorder.lerp(a, b, t),
+        elevation: 1.0,
       ),
       body: ListView.builder(itemBuilder: (context, index) =>UpdateProductItem(
         id: individualProduct[index].id,title:individualProduct[index].title ,

@@ -48,7 +48,7 @@ _imageUrlFocusNode.addListener(updateImageUrl);
       isLoading = true;
     });
     if(editedProduct.id != null){
-      Provider.of<ProductsProvider>(context,listen: false).updateProduct(editedProduct.id,editedProduct);
+      await Provider.of<ProductsProvider>(context,listen: false).updateProduct(editedProduct.id,editedProduct);
       setState(() {
         isLoading = false;
       });

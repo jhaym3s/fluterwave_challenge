@@ -125,12 +125,22 @@ class ProductsProvider with ChangeNotifier{
     }
 
   }
- void deleteProduct(String productId){
+ void deleteProduct(String productId) async{
     _products.removeWhere((element) => element.id == productId);
+    final url = 'https://jumga-shop-default-rtdb.firebaseio.com/product/$productId.json';
+  final response = await http.delete(url);
     notifyListeners();
  }
- updateProduct(String productId, Product newProduct){
+ Future<void> updateProduct(String productId, Product newProduct) async {
   final editedProduct = _products.indexWhere((element) => element.id== productId);
+  final url = 'https://jumga-shop-default-rtdb.firebaseio.com/product/$productId.json';
+  await http.patch(url,body:json.encode(
+      {
+          "title": newProduct.title,
+          "imageUrl": newProduct.imageUrl,
+          "price": newProduct.price,
+          "description": newProduct.description,
+        }));
   _products[editedProduct] = newProduct;
   notifyListeners();
  }
