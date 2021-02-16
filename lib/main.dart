@@ -9,7 +9,7 @@ import './screens/cart_screen.dart';
 import './screens/registration_screen.dart';
 import 'package:provider/provider.dart';
 import './screens/product_overview.dart';
-import './login.dart';
+import 'widgets/login.dart';
 import './screens/shop_screen.dart';
 import './screens/add_and_edit_screen.dart';
 

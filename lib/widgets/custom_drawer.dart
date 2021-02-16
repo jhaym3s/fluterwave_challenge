@@ -89,14 +89,6 @@ class CustomDrawer extends StatelessWidget {
             },
           ),
           Divider(),
-          ListTile(
-            leading: Text("Logout"),
-            trailing: Icon(Icons.logout),
-            onTap: (){
-              Navigator.of(context).pushNamed(RegistrationScreen.routeName);
-            },
-          ),
-          Divider(),
         ],
       ),
     );

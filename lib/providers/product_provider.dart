@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import '../providers/product.dart';
@@ -73,7 +74,7 @@ class ProductsProvider with ChangeNotifier{
   }
 
  Future<void> addProduct(Product demoProduct)async{
-    var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product.json';
+    var url = 'https://jumga-shop-c8b12-default-rtdb.firebaseio.com/product.json';
     try {
       final response = await http.post(url, body: json.encode({
         "title": demoProduct.title,
@@ -101,7 +102,7 @@ class ProductsProvider with ChangeNotifier{
  }
  // used in the product_overview class
   Future<void> fetchData()async{
-    var url = 'https://jumga-shop-default-rtdb.firebaseio.com/product.json';
+    var url = 'https://jumga-shop-c8b12-default-rtdb.firebaseio.com/product.json';
     try{
       final response = await http.get(url);
       print(json.decode(response.body));
@@ -126,16 +127,22 @@ class ProductsProvider with ChangeNotifier{
 
   }
  void deleteProduct(String productId) async{
-    _products.removeWhere((element) => element.id == productId);
-    final url = 'https://jumga-shop-default-rtdb.firebaseio.com/product/$productId.json';
-  final response = await http.delete(url);
-    notifyListeners();
+    final itemToDelete = _products.indexWhere((element) => element.id == productId);
+    try{
+      final index = _products[itemToDelete];
+      final url = 'https://jumga-shop-c8b12-default-rtdb.firebaseio.com/product/$productId.json';
+      final response = await http.delete(url);
+      notifyListeners();
+    }catch(error){
+
+      throw HttpException('This was not possible ');
+    }
+
  }
  Future<void> updateProduct(String productId, Product newProduct) async {
   final editedProduct = _products.indexWhere((element) => element.id== productId);
-  final url = 'https://jumga-shop-default-rtdb.firebaseio.com/product/$productId.json';
-  await http.patch(url,body:json.encode(
-      {
+  final url = 'https://jumga-shop-c8b12-default-rtdb.firebaseio.com/product/$productId.json';
+  await http.patch(url,body:json.encode({
           "title": newProduct.title,
           "imageUrl": newProduct.imageUrl,
           "price": newProduct.price,

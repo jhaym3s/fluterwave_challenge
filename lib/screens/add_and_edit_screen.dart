@@ -120,11 +120,11 @@ _imageUrlFocusNode.addListener(updateImageUrl);
   Widget build(BuildContext context) {
 
     return Scaffold(
-      // appBar: AppBar(
-      //   actions: [
-      //     IconButton(icon: Icon(Icons.save), onPressed: saveForm)
-      //   ],
-      // ),
+      appBar: AppBar(
+        actions: [
+          IconButton(icon: Icon(Icons.save), onPressed: saveForm)
+        ],
+      ),
       body: isLoading? Center(child: CircularProgressIndicator()) :SingleChildScrollView(
         child: Form(
           key: _form,
