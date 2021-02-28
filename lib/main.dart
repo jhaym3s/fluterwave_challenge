@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:jumga/screens/update_product_screen.dart';
-
-
+import './screens/auth_screen.dart.dart';
+import './screens/update_product_screen.dart';
 import './providers/product.dart';
+import './providers/auth.dart';
 import './providers/cart.dart';
 import './providers/product_provider.dart';
 import './screens/cart_screen.dart';
@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (BuildContext context) => ProductsProvider(),),
+        ChangeNotifierProvider(create: (BuildContext context) => Auth(),),
         ChangeNotifierProvider(create: (BuildContext context) => Product(),),
         ChangeNotifierProvider(create: (BuildContext context)=> Cart())
       ] ,
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: ProductOverView(),
+          home: AuthScreen(),
           routes: {
             ProductOverView.routeName :(context)=> ProductOverView(),
             RegistrationScreen.routeName :(context)=> RegistrationScreen(),
