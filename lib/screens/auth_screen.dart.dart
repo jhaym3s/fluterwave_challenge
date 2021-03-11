@@ -42,8 +42,8 @@ class AuthScreen extends StatelessWidget {
                       margin: EdgeInsets.only(bottom: 20.0),
                       padding:
                           EdgeInsets.symmetric(vertical: 8.0, horizontal: 94.0),
-                      transform: Matrix4.rotationZ(-8 * pi / 180)
-                        ..translate(-10.0),
+                      // transform: Matrix4.rotationZ(-8 * pi / 180)
+                      //   ..translate(-10.0),
                       // ..translate(-10.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(20),
@@ -96,7 +96,7 @@ class _AuthCardState extends State<AuthCard> {
   var _isLoading = false;
   final _passwordController = TextEditingController();
 
-  void _submit() {
+  Future<void> _submit() async{
     if (!_formKey.currentState.validate()) {
       // Invalid!
       return;
@@ -108,7 +108,9 @@ class _AuthCardState extends State<AuthCard> {
     if (_authMode == AuthMode.Login) {
       // Log user in
     } else {
-      Provider.of<Auth>(context).signUp(_authData["email"],_authData["password"]);
+     await Provider.of<Auth>(context,listen: false).signUp(
+         _authData["email"],
+         _authData["password"]);
     }
     setState(() {
       _isLoading = false;
